@@ -1,4 +1,7 @@
-// Gameboard
+const gameBoardInst = gameBoard();
+const gamePlayers = players();
+const gameChecker = createGameChecker(gameBoardInst, gamePlayers);
+
 function gameBoard (){
     const board = [];
 
@@ -7,20 +10,22 @@ function gameBoard (){
         square.classList.add('cell');
         board.push(square);
     }
+    return board;
 };
 
-// Players
 function players () {
     const player = ['X', 'O'];
     let currentPlayer = player[0];
     const message = document.createElement('p');
+
+    return {player, currentPlayer, message};
 };
 
-//Game play, needs to be in a button
-function gamePlay (){
-for(let i = 0; i < square.length; i++){
-    if (square[i].textContent == ''){
-        square[i].textContent == currentPlayer;
+function gamePlay (board, players){
+    const {player, currentPlayer, message} = players;
+for(let i = 0; i < board.length; i++){
+    if (board[i].textContent == ''){
+        board[i].textContent == currentPlayer;
     } else { return }
 }
 
@@ -30,43 +35,53 @@ if (currentPlayer == player[0]) {
     message.textContent = `It's O's turn!`
 }
 
-currentPlayer = currentPlayer == player[0] ? player[1] : player[0];
+players.currentPlayer = currentPlayer == player[0] ? player[1] : player[0];
 
-getWin();
-checkTie();
+gameChecker.checkWin(players.currentPlayer);
+gameChecker.checkTie();
 }
 
-//winnign combo
-const winCombinations = [
-    [0, 1, 2],
-    [3 , 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-];
+function createGameChecker (board, players){
+    function checkWin(currentPlayer) {
+    
+    const winCombinations = [
+        [0, 1, 2],
+        [3 , 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
 
-// Check win
-function getWin(currentPlayer) {
     for (let i = 0; i < winCombinations.length; i++){
-        const [a, b, c] = winCombinations;
-        if (square[a] == currentPlayer && square[b] == currentPlayer && square[c]) {
+        const [a, b, c] = winCombinations[i];
+        if (board[a].textContent == currentPlayer && board[b].textContent == currentPlayer && board[c].textContent == currentPlayer) {
             return message.textContent = `Game Over! ${currentPlayer} wins!`
         }
     }
 };
 
-// Check tie
-
 function checkTie (){
- for (let i = 0; i < square.length; i++) {
-    if (square[i].textContent !== '') {
-        return message.textContent = `Game Over! It's a tie!`;
+    for (let i = 0; i < board.length; i++) {
+       if (board[i].textContent !== '') {
+           return message.textContent = `Game Over! It's a tie!`;
+       }
     }
- }
+   };
+
+   return {
+    checkWin,
+    checkTie
+   }
 };
+
+gameBoardInst.forEach((square) => {
+    square.addEventListener('click', () => {
+        gamePlay(gameBoardInst, gamePlayers);
+    });
+});
 
 // Reset Button
 // resetBtn.addEventListner ("click", () => {
