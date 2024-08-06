@@ -10,7 +10,6 @@ const GameBoard = (function () {
             square.classList.add('cell');
             board.push(square);
         }
-        console.log(board);
         return board;
     };
 
@@ -18,12 +17,11 @@ const GameBoard = (function () {
     function makeMove (board, players){
         const {player, currentPlayer, message} = players;
         for(let i = 0; i < board.length; i++){
-        if (board[i].textContent == ''){
-
-            console.log("Selected square:", board[i]);
+        if (board[i].textContent === ''){
+            //  console.log("Selected square:", board[i]);
             
             board[i].textContent = currentPlayer;
-            break // Ensure only one move per click
+            break // Only one move per click
         }
     }
     
@@ -37,6 +35,16 @@ const GameBoard = (function () {
     
     gameChecker.checkWin(players.currentPlayer);
     gameChecker.checkTie();
+
+    // const winResult = gameChecker.checkWin(players.currentPlayer);
+    // if (winResult) {
+    //   console.log(winResult);
+    // }
+    // const tieResult = gameChecker.checkTie();
+    // if (tieResult) {
+    //   console.log(tieResult);
+    // }
+
 
     }
     
@@ -57,20 +65,24 @@ const GameBoard = (function () {
         for (let i = 0; i < winCombinations.length; i++){
             const [a, b, c] = winCombinations[i];
             if (board[a].textContent === currentPlayer && board[b].textContent === currentPlayer && board[c].textContent === currentPlayer) {
-                return message.textContent = `Game Over! ${currentPlayer} wins!`
+                players.message.textContent = `Game Over! ${currentPlayer} wins!`
+                // console.log("Win condition met!"); 
+                // console.log(winCombinations[i]);
+                return true;
             }
         }
-        console.log("Win condition met!"); 
-        console.log(winCombinations[i]);
+        return false;
     };
     
     function checkTie (){
         for (let i = 0; i < board.length; i++) {
            if (board.every (square => square.textContent !== '')) {
-               return message.textContent = `Game Over! It's a tie!`;
+                players.message.textContent = `Game Over! It's a tie!`;
+            //    console.log("It's a tie!"); 
+               return true;
            }
+           return false;
         }
-        console.log("It's a tie!"); 
        };
     
        return {
@@ -83,7 +95,7 @@ const GameBoard = (function () {
     const gamePlayers = {
         player: ['X', 'O'],
         currentPlayer : 'X',
-        message : document.createElement('p')
+        message : document.querySelector('.message')
     };
     const gameChecker = createGameChecker(gameBoardInst, gamePlayers);
 
@@ -96,32 +108,43 @@ const GameBoard = (function () {
 
     return {
         gameBoardInst,
+        gamePlayers,
         gameChecker,
         makeMove
     }
 })();
 
-const gamePlayers = {
-    player: ['X', 'O'],
-    currentPlayer : 'X',
-    message : document.createElement('p')
-};
+// const gamePlayers = {
+//     player: ['X', 'O'],
+//     currentPlayer : 'X',
+//     message : document.querySelector('.message')
+// };
 
 //UI of the gameboard
 
-// const displayGame = (function (){
-    // const boardContainer = document.querySelector('');
-    //const message = document.querySelector('');
-    //const restBtn = document.querySelector('');
-// });()
+const displayGame = (function (){
+    const boardContainer = document.querySelector('.board-container');
+    const resetBtn = document.querySelector('.restBtn');
+
+    resetBtn.addEventListener ("click", () => {
+        GameBoard.gameBoardInst.forEach((square) => {
+            square.textContent = ''; 
+        });
+        
+        GameBoard.gamePlayers.message.textContent = `It's X's turn!`;
+        GameBoard.gamePlayers.currentPlayer = GameBoard.gamePlayers.player[0];
+        });
+
+        GameBoard.gameBoardInst.forEach((square) => {
+            boardContainer.appendChild(square);
+        });
+
+    return{
+        boardContainer,
+        resetBtn
+    }
+})();
 
 
-// Reset Button
-// resetBtn.addEventListner ("click", () => {
-//         square.textContent = '';
-
-//         message.textContent = `It's X's turn!`;
-//         currentPlayer = player[0];
-// });
 
 
