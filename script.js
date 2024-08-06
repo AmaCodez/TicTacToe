@@ -10,6 +10,7 @@ const GameBoard = (function () {
             square.classList.add('cell');
             board.push(square);
         }
+        console.log(board);
         return board;
     };
 
@@ -18,6 +19,9 @@ const GameBoard = (function () {
         const {player, currentPlayer, message} = players;
         for(let i = 0; i < board.length; i++){
         if (board[i].textContent == ''){
+
+            console.log("Selected square:", board[i]);
+            
             board[i].textContent = currentPlayer;
             break // Ensure only one move per click
         }
@@ -56,6 +60,8 @@ const GameBoard = (function () {
                 return message.textContent = `Game Over! ${currentPlayer} wins!`
             }
         }
+        console.log("Win condition met!"); 
+        console.log(winCombinations[i]);
     };
     
     function checkTie (){
@@ -64,6 +70,7 @@ const GameBoard = (function () {
                return message.textContent = `Game Over! It's a tie!`;
            }
         }
+        console.log("It's a tie!"); 
        };
     
        return {
@@ -103,7 +110,9 @@ const gamePlayers = {
 //UI of the gameboard
 
 // const displayGame = (function (){
-    
+    // const boardContainer = document.querySelector('');
+    //const message = document.querySelector('');
+    //const restBtn = document.querySelector('');
 // });()
 
 
