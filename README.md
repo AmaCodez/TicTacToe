@@ -19,6 +19,5 @@ This project is a simple implementation of the classic Tic Tac Toe game using HT
 
 ## Future Enhancements
 
-* Add a restart button to reset the game without refreshing the page.
 * Improve the UI with animations and better styling.
 * Add a scoreboard to keep track of wins and ties.
