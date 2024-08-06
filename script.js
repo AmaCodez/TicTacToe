@@ -122,6 +122,7 @@ const GameBoard = (function () {
 
 //UI of the gameboard
 
+// Reset the gameboard
 const displayGame = (function (){
     const boardContainer = document.querySelector('.board-container');
     const resetBtn = document.querySelector('.restBtn');
