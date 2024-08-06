@@ -1,12 +1,7 @@
 
 // This creates the Gameboard and game play
 const GameBoard = (function () {
-
-    const gameBoardInst = gameBoard();
-    const gamePlayers = players();
-    const gameChecker = createGameChecker(gameBoardInst, gamePlayers);
-    const gamePlay = makeMove(gameBoardInst, gamePlayers);
-
+    
     function gameBoard (){
         const board = [];
     
@@ -17,22 +12,15 @@ const GameBoard = (function () {
         }
         return board;
     };
-    
-    function players () {
-        const player = ['X', 'O'];
-        let currentPlayer = player[0];
-        const message = document.createElement('p');
-    
-        return {player, currentPlayer, message};
-    };
+
     
     function makeMove (board, players){
         const {player, currentPlayer, message} = players;
-    for(let i = 0; i < board.length; i++){
+        for(let i = 0; i < board.length; i++){
         if (board[i].textContent == ''){
             board[i].textContent = currentPlayer;
+            break // Ensure only one move per click
         }
-        return;
     }
     
     if (currentPlayer == player[0]) {
@@ -45,11 +33,12 @@ const GameBoard = (function () {
     
     gameChecker.checkWin(players.currentPlayer);
     gameChecker.checkTie();
+
     }
     
     function createGameChecker (board, players){
+
         function checkWin(currentPlayer) {
-        
         const winCombinations = [
             [0, 1, 2],
             [3 , 4, 5],
@@ -63,7 +52,7 @@ const GameBoard = (function () {
     
         for (let i = 0; i < winCombinations.length; i++){
             const [a, b, c] = winCombinations[i];
-            if (board[a].textContent == currentPlayer && board[b].textContent == currentPlayer && board[c].textContent == currentPlayer) {
+            if (board[a].textContent === currentPlayer && board[b].textContent === currentPlayer && board[c].textContent === currentPlayer) {
                 return message.textContent = `Game Over! ${currentPlayer} wins!`
             }
         }
@@ -71,7 +60,7 @@ const GameBoard = (function () {
     
     function checkTie (){
         for (let i = 0; i < board.length; i++) {
-           if (board[i].textContent == '') {
+           if (board.every (square => square.textContent !== '')) {
                return message.textContent = `Game Over! It's a tie!`;
            }
         }
@@ -82,24 +71,40 @@ const GameBoard = (function () {
         checkTie
        }
     };
+
+    const gameBoardInst = gameBoard();
+    const gamePlayers = {
+        player: ['X', 'O'],
+        currentPlayer : 'X',
+        message : document.createElement('p')
+    };
+    const gameChecker = createGameChecker(gameBoardInst, gamePlayers);
+
     
     gameBoardInst.forEach((square) => {
         square.addEventListener('click', () => {
-            gamePlay(gameBoardInst, gamePlayers);
+            makeMove(gameBoardInst, gamePlayers);
         });
     });
 
     return {
         gameBoardInst,
-        gamePlayers,
         gameChecker,
-        gamePlay
+        makeMove
     }
 })();
 
+const gamePlayers = {
+    player: ['X', 'O'],
+    currentPlayer : 'X',
+    message : document.createElement('p')
+};
 
+//UI of the gameboard
 
-
+// const displayGame = (function (){
+    
+// });()
 
 
 // Reset Button
