@@ -15,6 +15,8 @@ const GameBoard = (function () {
     
     function makeMove (board, players, index){
 
+    if (gameOver) return;
+
     const {player, currentPlayer, message} = players;
     if (board[index].textContent === ''){
         board[index].textContent = currentPlayer;
@@ -22,17 +24,19 @@ const GameBoard = (function () {
         return; 
     }
     
-    if (currentPlayer == player[0]) {
-        message.textContent = `It's O's turn!`;
-    } else {
-        message.textContent = `It's X's turn!`
+    if (gameChecker.checkWin(currentPlayer)) {
+        message.textContent = `Game Over! ${currentPlayer} wins!`;
+        gameOver = true;
+        return; 
+    } else if (gameChecker.checkTie()) {
+        message.textContent = `Game Over! It's a tie!`;
+        gameOver = true;
+        return; 
     }
     
     players.currentPlayer = currentPlayer == player[0] ? player[1] : player[0];
+    message.textContent = `It's ${players.currentPlayer}'s turn!`;
     
-    gameChecker.checkWin(players.currentPlayer);
-    gameChecker.checkTie();
-
     }
     
     function createGameChecker (board, players){
@@ -81,6 +85,8 @@ const GameBoard = (function () {
         currentPlayer : 'X',
         message : document.querySelector('.message')
     };
+
+    let gameOver = false;
     const gameChecker = createGameChecker(gameBoardInst, gamePlayers);
 
     
@@ -110,6 +116,7 @@ const displayGame = (function (){
         
         GameBoard.gamePlayers.message.textContent = `It's X's turn!`;
         GameBoard.gamePlayers.currentPlayer = GameBoard.gamePlayers.player[0];
+        gameOver = false;
         });
 
         GameBoard.gameBoardInst.forEach((square) => {
