@@ -1,6 +1,8 @@
 
 const GameBoard = (function () {
-    
+
+    let gameOver = false;
+
     function gameBoard (){
         const board = [];
     
@@ -86,7 +88,6 @@ const GameBoard = (function () {
         message : document.querySelector('.message')
     };
 
-    let gameOver = false;
     const gameChecker = createGameChecker(gameBoardInst, gamePlayers);
 
     
@@ -100,7 +101,15 @@ const GameBoard = (function () {
         gameBoardInst,
         gamePlayers,
         gameChecker,
-        makeMove
+        makeMove,
+        resetGame: () => { 
+            gameBoardInst.forEach((square) => {
+                square.textContent = ''; 
+            });
+            gamePlayers.message.textContent = `It's X's turn!`;
+            gamePlayers.currentPlayer = gamePlayers.player[0];
+            gameOver = false;
+        }
     }
 })();
 
@@ -110,13 +119,7 @@ const displayGame = (function (){
     const resetBtn = document.querySelector('.restBtn');
 
     resetBtn.addEventListener ("click", () => {
-        GameBoard.gameBoardInst.forEach((square) => {
-            square.textContent = ''; 
-        });
-        
-        GameBoard.gamePlayers.message.textContent = `It's X's turn!`;
-        GameBoard.gamePlayers.currentPlayer = GameBoard.gamePlayers.player[0];
-        gameOver = false;
+        GameBoard.resetGame();
         });
 
         GameBoard.gameBoardInst.forEach((square) => {
