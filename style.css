@@ -1,3 +1,30 @@
+@font-face {
+    font-family: 'bubblegum_sansregular';
+    src: url('typography/tictactoe-fonts/bubblegumsans-regular-webfont.woff2') format('woff2'),
+         url('typography/tictactoe-fonts/bubblegumsans-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'snigletregular';
+    src: url('typography/tictactoe-fonts/sniglet-regular-webfont.woff2') format('woff2'),
+         url('typography/tictactoe-fonts/sniglet-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'valultrablack';
+    src: url('typography/tictactoe-fonts/val-ultrablack-webfont.woff2') format('woff2'),
+         url('typography/tictactoe-fonts/val-ultrablack-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
