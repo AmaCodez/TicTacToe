@@ -1,5 +1,4 @@
 
-// This creates the Gameboard and game play
 const GameBoard = (function () {
     
     function gameBoard (){
@@ -14,37 +13,25 @@ const GameBoard = (function () {
     };
 
     
-    function makeMove (board, players){
-        const {player, currentPlayer, message} = players;
-        for(let i = 0; i < board.length; i++){
-        if (board[i].textContent === ''){
-            //  console.log("Selected square:", board[i]);
-            
-            board[i].textContent = currentPlayer;
-            break // Only one move per click
-        }
+    function makeMove (board, players, index){
+
+    const {player, currentPlayer, message} = players;
+    if (board[index].textContent === ''){
+        board[index].textContent = currentPlayer;
+    } else {
+        return; 
     }
     
     if (currentPlayer == player[0]) {
-        message.textContent = `It's X's turn!`;
+        message.textContent = `It's O's turn!`;
     } else {
-        message.textContent = `It's O's turn!`
+        message.textContent = `It's X's turn!`
     }
     
     players.currentPlayer = currentPlayer == player[0] ? player[1] : player[0];
     
     gameChecker.checkWin(players.currentPlayer);
     gameChecker.checkTie();
-
-    // const winResult = gameChecker.checkWin(players.currentPlayer);
-    // if (winResult) {
-    //   console.log(winResult);
-    // }
-    // const tieResult = gameChecker.checkTie();
-    // if (tieResult) {
-    //   console.log(tieResult);
-    // }
-
 
     }
     
@@ -66,8 +53,6 @@ const GameBoard = (function () {
             const [a, b, c] = winCombinations[i];
             if (board[a].textContent === currentPlayer && board[b].textContent === currentPlayer && board[c].textContent === currentPlayer) {
                 players.message.textContent = `Game Over! ${currentPlayer} wins!`
-                // console.log("Win condition met!"); 
-                // console.log(winCombinations[i]);
                 return true;
             }
         }
@@ -78,7 +63,6 @@ const GameBoard = (function () {
         for (let i = 0; i < board.length; i++) {
            if (board.every (square => square.textContent !== '')) {
                 players.message.textContent = `Game Over! It's a tie!`;
-            //    console.log("It's a tie!"); 
                return true;
            }
            return false;
@@ -100,9 +84,9 @@ const GameBoard = (function () {
     const gameChecker = createGameChecker(gameBoardInst, gamePlayers);
 
     
-    gameBoardInst.forEach((square) => {
+    gameBoardInst.forEach((square, index) => {
         square.addEventListener('click', () => {
-            makeMove(gameBoardInst, gamePlayers);
+            makeMove(gameBoardInst, gamePlayers, index);
         });
     });
 
@@ -114,15 +98,7 @@ const GameBoard = (function () {
     }
 })();
 
-// const gamePlayers = {
-//     player: ['X', 'O'],
-//     currentPlayer : 'X',
-//     message : document.querySelector('.message')
-// };
 
-//UI of the gameboard
-
-// Reset the gameboard
 const displayGame = (function (){
     const boardContainer = document.querySelector('.board-container');
     const resetBtn = document.querySelector('.restBtn');
