@@ -4,7 +4,18 @@
     padding: 0;
 }
 
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
+.title {
+    display: flex;
+    margin-bottom: 30px;
+}
 .board-container{
     display: grid;
     grid-template-columns: repeat(3, 150px);

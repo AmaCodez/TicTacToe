@@ -22,3 +22,5 @@ This project is a simple implementation of the classic Tic Tac Toe game using HT
 * Add a restart button to reset the game without refreshing the page.
 * Improve the UI with animations and better styling.
 * Add a scoreboard to keep track of wins and ties.
+
+<a href="https://www.freepik.com/icon/game_16164810#fromView=search&page=1&position=18&uuid=c6604945-b237-4a03-a783-371b8bef71a9">Icon by egorpolyakov</a>
